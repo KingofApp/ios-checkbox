@@ -1,0 +1,73 @@
+<!--
+@license
+Copyright (c) 2015 Team King of App. All rights reserved.
+-->
+
+<!doctype html>
+<html>
+  <head>
+    <title>ios-checkbox demo</title>
+
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../ios-checkbox.html">
+
+    <style is="custom-style">
+      :root {
+        --ios-checkbox-checked-color: #007aff;
+      }
+      ios-checkbox {
+        display: block;
+        margin-bottom: 20px;
+      }
+      ios-checkbox.red {
+        --ios-checkbox-checked-color: red;
+      }
+      ios-checkbox.blue {
+        --ios-checkbox-checked-color: blue;
+      }
+
+      /* Create a ios-styles web component for these styles */
+      h4 {
+        color: #6d6d72;
+        font-weight: normal;
+        margin: 0 0 1em;
+        text-transform: uppercase;
+      }
+      .horizontal-section-container {
+        margin-bottom: 2em;
+      }
+      .line {
+        margin-bottom: 1em;
+      }
+    </style>
+  </head>
+  <body unresolved>
+    <div class="horizontal-section-container">
+      <div>
+        <h4>Enabled</h4>
+        <div class="horizontal-section">
+          <ios-checkbox>Oxygen</ios-checkbox>
+          <ios-checkbox checked>Hydrogen</ios-checkbox>
+        </div>
+      </div>
+      <div>
+        <h4>Disabled</h4>
+        <div class="horizontal-section">
+          <ios-checkbox disabled>Oxygen</ios-checkbox>
+          <ios-checkbox checked disabled>Hydrogen</ios-checkbox>
+        </div>
+      </div>
+      <div>
+        <h4>Color</h4>
+        <div class="horizontal-section">
+          <ios-checkbox class="blue" checked>Oxygen</ios-checkbox>
+          <ios-checkbox class="red" checked>Carbon</ios-checkbox>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
