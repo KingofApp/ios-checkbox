@@ -4,6 +4,7 @@ Copyright (c) 2015 Team King of App. All rights reserved.
 -->
 
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-behaviors/iron-button-state.html">
 
 <dom-module id="ios-checkbox">
   <template>
@@ -103,6 +104,72 @@ Copyright (c) 2015 Team King of App. All rights reserved.
 
 <script>
   Polymer({
-    is: 'ios-checkbox'
+    is: 'ios-checkbox',
+
+    behaviors: [
+      Polymer.IronButtonState
+    ],
+
+    hostAttributes: {
+      role: 'checkbox',
+      'aria-checked': false,
+      tabindex: 0
+    },
+
+    properties: {
+      checked: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        notify: true,
+        observer: '_checkedChanged'
+      },
+
+      toggles: {
+        type: Boolean,
+        value: true,
+        reflectToAttribute: true
+      }
+    },
+
+    attached: function() {
+      var trimmedText = Polymer.dom(this).textContent.trim();
+      if (trimmedText === '') {
+        this.$.checkboxLabel.hidden = true;
+      }
+      if (trimmedText !== '' && !this.getAttribute('aria-label')) {
+        this.setAttribute('aria-label', trimmedText);
+      }
+      this._isReady = true;
+    },
+
+    _buttonStateChanged: function() {
+      if (this.disabled) {
+        return;
+      }
+      if (this._isReady) {
+        this.checked = this.active;
+      }
+    },
+
+    _checkedChanged: function(checked) {
+      this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
+      this.active = this.checked;
+      this.fire('iron-change');
+    },
+
+    _computeCheckboxClass: function(checked) {
+      if (checked) {
+        return 'checked';
+      }
+      return '';
+    },
+
+    _computeCheckmarkClass: function(checked) {
+      if (!checked) {
+        return 'hidden';
+      }
+      return '';
+    }
   })
 </script>
