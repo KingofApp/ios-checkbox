@@ -1,0 +1,28 @@
+{
+  "name": "ios-checkbox",
+  "version": "0.0.1",
+  "description": "An iOS design checkbox",
+  "authors": [
+    "Abdón Rodríguez Davila <thepeer@kingofapp.es>"
+  ],
+  "keywords": [
+    "web-components",
+    "web-component",
+    "polymer",
+    "checkbox",
+    "control"
+  ],
+  "main": "ios-checkbox.html",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/KingofApp/ios-checkbox"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "polymer": "polymer/polymer#~1.1.0"
+  },
+  "devDependencies": {
+    "webcomponentsjs": "webcomponents/webcomponentsjs#~0.7.0",
+    "iron-component-page": "PolymerElements/iron-component-page#~1.0.5"
+  }
+}
