@@ -8,6 +8,96 @@ Copyright (c) 2015 Team King of App. All rights reserved.
 <dom-module id="ios-checkbox">
   <template>
 
+    <style>
+      :host {
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      :host(:focus) {
+        outline: none;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      :host #checkbox {
+        background-color: var(--ios-checkbox-unchecked-background-color, transparent);
+        border-radius: 22px;
+        border: solid 1px #c7c7cc;
+        box-sizing: border-box;
+        cursor: pointer;
+        display: inline-block;
+        height: 22px;
+        pointer-events: none;
+        position: relative;
+        transform: translateZ(0);
+          -webkit-transform: translateZ(0);
+        vertical-align: middle;
+        width: 22px;
+      }
+
+      :host #checkbox.checked {
+        background-color: var(--ios-checkbox-checked-color, --default-primary-color);
+        border: none;
+      }
+
+      :host #checkmark {
+        border-style: solid;
+        border-top: none;
+        border-left: none;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-color: var(--ios-checkbox-checkmark-color, white);
+        height: 10px;
+        left: 8px;
+        position: absolute;
+        top: 4px;
+        width: 5px;
+        transform: rotate(45deg);
+          -webkit-transform: rotate(45deg);
+      }
+
+      #checkboxLabel {
+        color: var(--ios-checkbox-label-color, --primary-text-color);
+        display: inline-block;
+        padding: 8px 15px 7px;
+        pointer-events: none;
+        position: relative;
+        vertical-align: middle;
+        white-space: normal;
+      }
+
+      #checkboxLabel[hidden] {
+        display: none;
+      }
+
+      :host([disabled]) {
+        pointer-events: none;
+      }
+
+      :host([disabled]) #checkbox {
+        opacity: 0.5;
+        border-color: var(--ios-checkbox-unchecked-color, --primary-text-color);
+      }
+
+      :host([disabled][checked]) #checkbox {
+        background-color: var(--ios-checkbox-unchecked-color, --primary-text-color);
+        opacity: 0.5;
+      }
+
+      :host([disabled]) #checkboxLabel  {
+        opacity: 0.65;
+      }
+    </style>
+
+    <div id="checkbox" class$="[[_computeCheckboxClass(checked)]]">
+      <div id="checkmark" class$="[[_computeCheckmarkClass(checked)]]"></div>
+    </div>
+
+    <div id="checkboxLabel" aria-hidden="true"><content></content></div>
+
   </template>
 </dom-module>
 
