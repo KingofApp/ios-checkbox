@@ -100,76 +100,76 @@ Copyright (c) 2015 Team King of App. All rights reserved.
     <div id="checkboxLabel" aria-hidden="true"><content></content></div>
 
   </template>
-</dom-module>
 
-<script>
-  Polymer({
-    is: 'ios-checkbox',
+  <script>
+    Polymer({
+      is: 'ios-checkbox',
 
-    behaviors: [
-      Polymer.IronButtonState
-    ],
+      behaviors: [
+        Polymer.IronButtonState
+      ],
 
-    hostAttributes: {
-      role: 'checkbox',
-      'aria-checked': false,
-      tabindex: 0
-    },
-
-    properties: {
-      checked: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-        notify: true,
-        observer: '_checkedChanged'
+      hostAttributes: {
+        role: 'checkbox',
+        'aria-checked': false,
+        tabindex: 0
       },
 
-      toggles: {
-        type: Boolean,
-        value: true,
-        reflectToAttribute: true
-      }
-    },
+      properties: {
+        checked: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+          notify: true,
+          observer: '_checkedChanged'
+        },
 
-    attached: function() {
-      var trimmedText = Polymer.dom(this).textContent.trim();
-      if (trimmedText === '') {
-        this.$.checkboxLabel.hidden = true;
-      }
-      if (trimmedText !== '' && !this.getAttribute('aria-label')) {
-        this.setAttribute('aria-label', trimmedText);
-      }
-      this._isReady = true;
-    },
+        toggles: {
+          type: Boolean,
+          value: true,
+          reflectToAttribute: true
+        }
+      },
 
-    _buttonStateChanged: function() {
-      if (this.disabled) {
-        return;
-      }
-      if (this._isReady) {
-        this.checked = this.active;
-      }
-    },
+      attached: function() {
+        var trimmedText = Polymer.dom(this).textContent.trim();
+        if (trimmedText === '') {
+          this.$.checkboxLabel.hidden = true;
+        }
+        if (trimmedText !== '' && !this.getAttribute('aria-label')) {
+          this.setAttribute('aria-label', trimmedText);
+        }
+        this._isReady = true;
+      },
 
-    _checkedChanged: function(checked) {
-      this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
-      this.active = this.checked;
-      this.fire('iron-change');
-    },
+      _buttonStateChanged: function() {
+        if (this.disabled) {
+          return;
+        }
+        if (this._isReady) {
+          this.checked = this.active;
+        }
+      },
 
-    _computeCheckboxClass: function(checked) {
-      if (checked) {
-        return 'checked';
-      }
-      return '';
-    },
+      _checkedChanged: function(checked) {
+        this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
+        this.active = this.checked;
+        this.fire('iron-change');
+      },
 
-    _computeCheckmarkClass: function(checked) {
-      if (!checked) {
-        return 'hidden';
+      _computeCheckboxClass: function(checked) {
+        if (checked) {
+          return 'checked';
+        }
+        return '';
+      },
+
+      _computeCheckmarkClass: function(checked) {
+        if (!checked) {
+          return 'hidden';
+        }
+        return '';
       }
-      return '';
-    }
-  })
-</script>
+    })
+  </script>
+</dom-module>
