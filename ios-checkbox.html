@@ -7,10 +7,39 @@ This code may only be used under the MIT license.
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../ios-styles/ios-styles.html">
 <link rel="import" href="../iron-behaviors/iron-button-state.html">
+<link rel="import" href="../iron-checked-element-behavior/iron-checked-element-behavior.html">
+
+<!--
+`ios-checkbox` is a button that can be either checked or unchecked.  User
+can tap the checkbox to check or uncheck it.  Usually you use checkboxes
+to allow user to select multiple options from a set.  If you have a single
+ON/OFF option, avoid using a single checkbox and use `ios-toggle-button`
+instead.
+
+Example:
+
+    <ios-checkbox>label</ios-checkbox>
+
+    <ios-checkbox checked> label</ios-checkbox>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--ios-checkbox-unchecked-background-color` | Checkbox background color when the input is not checked | `transparent`
+`--ios-checkbox-unchecked-color` | Checkbox border color when the input is not checked | `--primary-text-color`
+`--ios-checkbox-checked-color` | Checkbox color when the input is checked | `--default-primary-color`
+`--ios-checkbox-checkmark-color` | Checkmark color | `white`
+`--ios-checkbox-label-color` | Label color | `--primary-text-color`
+`--ios-checkbox-error-color` | Checkbox color when invalid | `#db4437`
+
+@demo demo/index.html
+-->
 
 <dom-module id="ios-checkbox">
   <template>
-
     <style>
       :host {
         display: inline-block;
@@ -90,17 +119,21 @@ This code may only be used under the MIT license.
         opacity: 0.5;
       }
 
-      :host([disabled]) #checkboxLabel  {
+      :host([disabled]) #checkboxLabel {
         opacity: 0.65;
+      }
+
+      /* invalid state */
+      #checkbox.invalid:not(.checked) {
+        border-color: var(--ios-checkbox-error-color, #db4437);
       }
     </style>
 
-    <div id="checkbox" class$="[[_computeCheckboxClass(checked)]]">
+    <div id="checkbox" class$="[[_computeCheckboxClass(checked, invalid)]]">
       <div id="checkmark" class$="[[_computeCheckmarkClass(checked)]]"></div>
     </div>
 
-    <div id="checkboxLabel" aria-hidden="true"><content></content></div>
-
+    <div id="checkboxLabel"><content></content></div>
   </template>
 
   <script>
@@ -108,7 +141,8 @@ This code may only be used under the MIT license.
       is: 'ios-checkbox',
 
       behaviors: [
-        Polymer.IronButtonState
+        Polymer.IronButtonState,
+        Polymer.IronCheckedElementBehavior
       ],
 
       hostAttributes: {
@@ -118,32 +152,36 @@ This code may only be used under the MIT license.
       },
 
       properties: {
-        checked: {
-          type: Boolean,
-          value: false,
-          reflectToAttribute: true,
-          notify: true,
-          observer: '_checkedChanged'
-        },
+        /**
+         * Fired when the checked state changes due to user interaction.
+         *
+         * @event change
+         */
 
-        toggles: {
-          type: Boolean,
-          value: true,
-          reflectToAttribute: true
+        /**
+         * Fired when the checked state changes.
+         *
+         * @event iron-change
+         */
+        ariaActiveAttribute: {
+          type: String,
+          value: 'aria-checked'
         }
       },
 
       attached: function() {
-        var trimmedText = Polymer.dom(this).textContent.trim();
-        if (trimmedText === '') {
-          this.$.checkboxLabel.hidden = true;
-        }
-        if (trimmedText !== '' && !this.getAttribute('aria-label')) {
-          this.setAttribute('aria-label', trimmedText);
-        }
         this._isReady = true;
+        // Don't stomp over a user-set aria-label.
+        if (!this.getAttribute('aria-label')) {
+          this.updateAriaLabel();
+        }
       },
 
+      updateAriaLabel: function() {
+        this.setAttribute('aria-label', Polymer.dom(this).textContent.trim());
+      },
+
+      // button-behavior hook
       _buttonStateChanged: function() {
         if (this.disabled) {
           return;
@@ -153,24 +191,19 @@ This code may only be used under the MIT license.
         }
       },
 
-      _checkedChanged: function(checked) {
-        this.setAttribute('aria-checked', this.checked ? 'true' : 'false');
-        this.active = this.checked;
-        this.fire('iron-change');
-      },
-
-      _computeCheckboxClass: function(checked) {
+      _computeCheckboxClass: function(checked, invalid) {
+        var className = '';
         if (checked) {
-          return 'checked';
+          className += 'checked ';
         }
-        return '';
+        if (invalid) {
+          className += 'invalid';
+        }
+        return className;
       },
 
       _computeCheckmarkClass: function(checked) {
-        if (!checked) {
-          return 'hidden';
-        }
-        return '';
+        return checked ? '' : 'hidden';
       }
     })
   </script>
