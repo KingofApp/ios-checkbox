@@ -1,0 +1,210 @@
+<!--
+@license
+Copyright (c) 2015 Team King of App. All rights reserved.
+This code may only be used under the MIT license.
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../ios-styles/ios-styles.html">
+<link rel="import" href="../iron-behaviors/iron-button-state.html">
+<link rel="import" href="../iron-checked-element-behavior/iron-checked-element-behavior.html">
+
+<!--
+`ios-checkbox` is a button that can be either checked or unchecked.  User
+can tap the checkbox to check or uncheck it.  Usually you use checkboxes
+to allow user to select multiple options from a set.  If you have a single
+ON/OFF option, avoid using a single checkbox and use `ios-toggle-button`
+instead.
+
+Example:
+
+    <ios-checkbox>label</ios-checkbox>
+
+    <ios-checkbox checked> label</ios-checkbox>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--ios-checkbox-unchecked-background-color` | Checkbox background color when the input is not checked | `transparent`
+`--ios-checkbox-unchecked-color` | Checkbox border color when the input is not checked | `--primary-text-color`
+`--ios-checkbox-checked-color` | Checkbox color when the input is checked | `--default-primary-color`
+`--ios-checkbox-checkmark-color` | Checkmark color | `white`
+`--ios-checkbox-label-color` | Label color | `--primary-text-color`
+`--ios-checkbox-error-color` | Checkbox color when invalid | `#db4437`
+
+@demo demo/index.html
+-->
+
+<dom-module id="ios-checkbox">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        white-space: nowrap;
+      }
+
+      :host(:focus) {
+        outline: none;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      :host #checkbox {
+        background-color: var(--ios-checkbox-unchecked-background-color, transparent);
+        border-radius: 22px;
+        border: solid 1px #c7c7cc;
+        box-sizing: border-box;
+        cursor: pointer;
+        display: inline-block;
+        height: 22px;
+        pointer-events: none;
+        position: relative;
+        transform: translateZ(0);
+          -webkit-transform: translateZ(0);
+        vertical-align: middle;
+        width: 22px;
+      }
+
+      :host #checkbox.checked {
+        background-color: var(--ios-checkbox-checked-color, --default-primary-color);
+        border: none;
+      }
+
+      :host #checkmark {
+        border-style: solid;
+        border-top: none;
+        border-left: none;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-color: var(--ios-checkbox-checkmark-color, white);
+        height: 10px;
+        left: 8px;
+        position: absolute;
+        top: 4px;
+        width: 5px;
+        transform: rotate(45deg);
+          -webkit-transform: rotate(45deg);
+      }
+
+      #checkboxLabel {
+        color: var(--ios-checkbox-label-color, --primary-text-color);
+        display: inline-block;
+        padding: 8px 15px 7px;
+        pointer-events: none;
+        position: relative;
+        vertical-align: middle;
+        white-space: normal;
+      }
+
+      #checkboxLabel[hidden] {
+        display: none;
+      }
+
+      :host([disabled]) {
+        pointer-events: none;
+      }
+
+      :host([disabled]) #checkbox {
+        opacity: 0.5;
+        border-color: var(--ios-checkbox-unchecked-color, --primary-text-color);
+      }
+
+      :host([disabled][checked]) #checkbox {
+        background-color: var(--ios-checkbox-unchecked-color, --primary-text-color);
+        opacity: 0.5;
+      }
+
+      :host([disabled]) #checkboxLabel {
+        opacity: 0.65;
+      }
+
+      /* invalid state */
+      #checkbox.invalid:not(.checked) {
+        border-color: var(--ios-checkbox-error-color, #db4437);
+      }
+    </style>
+
+    <div id="checkbox" class$="[[_computeCheckboxClass(checked, invalid)]]">
+      <div id="checkmark" class$="[[_computeCheckmarkClass(checked)]]"></div>
+    </div>
+
+    <div id="checkboxLabel"><content></content></div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ios-checkbox',
+
+      behaviors: [
+        Polymer.IronButtonState,
+        Polymer.IronCheckedElementBehavior
+      ],
+
+      hostAttributes: {
+        role: 'checkbox',
+        'aria-checked': false,
+        tabindex: 0
+      },
+
+      properties: {
+        /**
+         * Fired when the checked state changes due to user interaction.
+         *
+         * @event change
+         */
+
+        /**
+         * Fired when the checked state changes.
+         *
+         * @event iron-change
+         */
+        ariaActiveAttribute: {
+          type: String,
+          value: 'aria-checked'
+        }
+      },
+
+      attached: function() {
+        this._isReady = true;
+        // Don't stomp over a user-set aria-label.
+        if (!this.getAttribute('aria-label')) {
+          this.updateAriaLabel();
+        }
+      },
+
+      updateAriaLabel: function() {
+        this.setAttribute('aria-label', Polymer.dom(this).textContent.trim());
+      },
+
+      // button-behavior hook
+      _buttonStateChanged: function() {
+        if (this.disabled) {
+          return;
+        }
+        if (this._isReady) {
+          this.checked = this.active;
+        }
+      },
+
+      _computeCheckboxClass: function(checked, invalid) {
+        var className = '';
+        if (checked) {
+          className += 'checked ';
+        }
+        if (invalid) {
+          className += 'invalid';
+        }
+        return className;
+      },
+
+      _computeCheckmarkClass: function(checked) {
+        return checked ? '' : 'hidden';
+      }
+    })
+  </script>
+</dom-module>

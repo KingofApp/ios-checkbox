@@ -1,0 +1,90 @@
+<!--
+@license
+Copyright (c) 2015 Team King of App. All rights reserved.
+This code may only be used under the MIT license.
+-->
+
+<!doctype html>
+<html>
+  <head>
+    <title>ios-checkbox demo</title>
+
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../paper-styles/demo-pages.html">
+    <link rel="import" href="../ios-checkbox.html">
+
+    <style is="custom-style">
+      ios-checkbox {
+        display: block;
+        margin-bottom: 40px;
+      }
+
+      ios-checkbox.blue {
+        --ios-checkbox-checked-color: var(--paper-light-blue-500);
+        --ios-checkbox-checked-ink-color: var(--paper-light-blue-500);
+        --ios-checkbox-unchecked-color: var(--paper-light-blue-900);
+        --ios-checkbox-unchecked-ink-color: var(--paper-light-blue-900);
+      }
+
+      ios-checkbox.red {
+        --ios-checkbox-checked-color: var(--paper-red-500);
+        --ios-checkbox-checked-ink-color: var(--paper-red-500);
+        --ios-checkbox-unchecked-color: var(--paper-red-900);
+        --ios-checkbox-unchecked-ink-color: var(--paper-red-900);
+      }
+
+      ios-checkbox.green {
+        --ios-checkbox-checked-color: var(--paper-green-500);
+        --ios-checkbox-checked-ink-color: var(--paper-green-500);
+        --ios-checkbox-unchecked-color: var(--paper-green-900);
+        --ios-checkbox-unchecked-ink-color: var(--paper-green-900);
+      }
+
+      ios-checkbox.orange {
+        --ios-checkbox-checked-color: var(--paper-orange-500);
+        --ios-checkbox-checked-ink-color: var(--paper-orange-500);
+        --ios-checkbox-unchecked-color: var(--paper-orange-900);
+        --ios-checkbox-unchecked-ink-color: var(--paper-orange-900);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="horizontal-section-container">
+      <div>
+        <h4>Enabled</h4>
+        <div class="horizontal-section">
+          <ios-checkbox>Oxygen</ios-checkbox>
+          <ios-checkbox>Carbon</ios-checkbox>
+          <ios-checkbox checked>Hydrogen</ios-checkbox>
+          <ios-checkbox checked>Nitrogen</ios-checkbox>
+          <ios-checkbox checked>Calcium</ios-checkbox>
+        </div>
+      </div>
+      <div>
+        <h4>Disabled</h4>
+        <div class="horizontal-section">
+          <ios-checkbox disabled>Oxygen</ios-checkbox>
+          <ios-checkbox disabled>Carbon</ios-checkbox>
+          <ios-checkbox checked disabled>Hydrogen</ios-checkbox>
+          <ios-checkbox checked disabled>Nitrogen</ios-checkbox>
+          <ios-checkbox checked disabled>Calcium</ios-checkbox>
+        </div>
+      </div>
+      <div>
+        <h4>Color</h4>
+        <div class="horizontal-section">
+          <ios-checkbox class="blue" checked>Oxygen</ios-checkbox>
+          <ios-checkbox class="red" checked>Carbon</ios-checkbox>
+          <ios-checkbox class="orange" checked>Hydrogen</ios-checkbox>
+          <ios-checkbox class="green" checked>Nitrogen</ios-checkbox>
+          <ios-checkbox class="blue" checked>Calcium</ios-checkbox>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
